@@ -50,6 +50,8 @@ We will clone your repo and run the automated audit. We look for:
 * Use **Redis** for caching the `/stats` endpoint.
 * Add **Integration Tests** in a separate folder.
 
+---
+
 ### 🚨 CRITICAL: Project Structurerggrg
 To ensure our **Automated Auditor** works correctly, you **MUST** follow this structure.
 We have provided a skeleton in `src/main.py`.
