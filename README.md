@@ -19,6 +19,8 @@ Imagine a system that receives financial transactions and needs to validate, sto
 2.  **The Logic:** The system must handle concurrency safely.
 3.  **The Persistence:** Use a database (PostgreSQL/SQLite) or an efficient in-memory structure if you can justify it.
 
+---
+
 **Requirement:** Your FastAPI instance in `src/main.py` must be named `app`.
 
 ### 🛠️ Tech Stack Requirements
