@@ -1,2 +1,4 @@
 fastapi
 uvicorn
+httpx
+# Añade aquí cualquier otra librería que uses (ej: pydantic, sqlalchemy...)
