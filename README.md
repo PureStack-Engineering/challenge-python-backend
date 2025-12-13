@@ -52,7 +52,7 @@ We will clone your repo and run the automated audit. We look for:
 
 ---
 
-### 🚨 CRITICAL: Project Structurerggrg
+### 🚨 CRITICAL: Project Structure
 To ensure our **Automated Auditor** works correctly, you **MUST** follow this structure.
 We have provided a skeleton in `src/main.py`.
 
