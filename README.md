@@ -21,8 +21,6 @@ Imagine a system that receives financial transactions and needs to validate, sto
 
 ---
 
-**Requirement:** Your FastAPI instance in `src/main.py` must be named `app`.
-
 ### 🛠️ Tech Stack Requirements
 * **Language:** Python 3.10+ (Strict Type Hinting required).
 * **Framework:** FastAPI (Recommended) or Django Ninja.
@@ -55,6 +53,8 @@ We will clone your repo and run the automated audit. We look for:
 ### 🚨 CRITICAL: Project Structure
 To ensure our **Automated Auditor** works correctly, you **MUST** follow this structure.
 We have provided a skeleton in `src/main.py`.
+
+**Requirement:** Your FastAPI instance in `src/main.py` must be named `app`.
 
 ```text
 /
