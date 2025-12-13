@@ -1,11 +1,15 @@
 from fastapi import FastAPI
 
-app = FastAPI()
+# Inicializamos la app para que el servidor de pruebas pueda arrancarla
+app = FastAPI(
+    title="PureStack Backend Challenge",
+    description="API para validación técnica de candidatos.",
+    version="1.0.0"
+)
+
+# TODO: Implementar los endpoints requeridos en el README.
+# Pista: El auditor buscará un Health Check en "/" o "/health".
 
 @app.get("/")
-def read_root():
-    return {"message": "PureStack Backend Challenge"}
-
-@app.get("/health")
-def health_check():
-    return {"status": "ok"}
+def root():
+    return {"info": "PureStack API Challenge. Implement logic here."}
