@@ -1,5 +1,7 @@
 # 🐍 PureStack Backend Engineering Challenge: The Microservice Protocol
 
+PureStack.es - Engineering. Validated by Code.
+
 ### Context
 Welcome to the **PureStack Technical Validation Protocol**.
 This assessment is designed to audit your ability to build **production-ready backend systems**. We are not interested in algorithmic puzzles; we are interested in Architecture, Clean Code, and Reliability.
