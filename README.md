@@ -1,94 +1,108 @@
 # 🐍 PureStack Backend Engineering Challenge: The Microservice Protocol
 
 **PureStack.es - Engineering Validation Protocol.**
-> *"We are not interested in algorithmic puzzles. We audit Architecture, Concurrency, and Reliability."*
+> *"We don't audit algorithms. We audit Architecture, Clean Code, and Containerization."*
 
 ---
 
 ### 📋 Context & Mission
 Welcome to the PureStack Technical Validation Protocol for Backend Engineering.
-This assessment is designed to audit your ability to build **production-ready systems** using Python and FastAPI/Django.
+This assessment audits your ability to build **production-ready systems** using Python and FastAPI.
 
-**The Mission:** Develop a RESTful API for a **High-Frequency Transaction System**.
-Imagine a service that receives financial transactions and needs to validate, store, and provide real-time statistics efficiently.
+**The Mission:** You are building the core **Order Processing Microservice**.
+The system must receive incoming orders, validate the data structure, calculate totals based on business rules, and return a confirmed response.
 
 ### 🚦 Certification Levels (Choose your Difficulty)
-Your seniority is defined by your architectural choices, concurrency management, and code structure. State your target level in your Pull Request.
+Your seniority is defined by your architectural choices and how you structure your code. State your target level in your Pull Request.
 
 #### 🥉 Level 3: Essential / Mid-Level
-* **Focus:** Functionality & Containerization.
-* **Requirement:** A working API that passes the standard tests.
+* **Focus:** Functionality & Validation.
+* **Requirement:** A working API that passes the `pytest` checks.
 * **Tasks:**
-    1.  **Endpoints:** Implement `POST /transactions` (Receive amount/timestamp) and `GET /stats` (Return sum/avg/max).
-    2.  **Validation:** Use **Pydantic** models to strictly validate inputs (e.g., negative amounts not allowed).
-    3.  **Persistence:** Store data in memory or SQLite.
-    4.  **Docker:** Create a valid `Dockerfile` that starts the application successfully.
+    1.  **Endpoint:** Implement `POST /orders`.
+    2.  **Logic:** The endpoint must accept a JSON payload (Item, Quantity, Price) and return an Order ID + Total Price (`Quantity * Price`).
+    3.  **Validation:** Use **Pydantic** to reject invalid data (e.g., negative quantity or price).
+    4.  **Structure:** The API must run successfully via `uvicorn`.
 * **Deliverable:** A functional API where `pytest` returns GREEN.
 
 #### 🥈 Level 2: Pro / Senior
-* **Focus:** Clean Architecture, Async & Separation of Concerns.
-* **Requirement:** Everything in Level 3 + **Service Layer & Dependency Injection**.
+* **Focus:** Clean Architecture & Separation of Concerns.
+* **Requirement:** Everything in Level 3 + **Service Layer Pattern**.
 * **Extra Tasks:**
-    1.  **Decoupling:** Do NOT put business logic inside the route handler (Controller). Implement a **Service Layer** and inject it using Dependency Injection (FastAPI `Depends`).
-    2.  **Async Mastery:** Ensure all I/O operations (DB writes, etc.) use proper `async/await` syntax to not block the event loop.
-    3.  **Error Handling:** Implement global exception handlers (Middleware) to return standard JSON errors instead of 500 crashes.
-* **Deliverable:** A Clean Architecture codebase that is testable and readable.
+    1.  **Decoupling:** Do NOT put business logic inside the route handler (`main.py`). Move the logic to `src/services/`.
+    2.  **DTOs:** Define strict Pydantic models in `src/models/` for both Request and Response.
+    3.  **Dependency Injection:** Inject the service into the controller using FastAPI's `Depends`.
+* **Deliverable:** A codebase where the "Controller" only handles HTTP, and the "Service" handles Logic.
 
 #### 🥇 Level 1: Elite / Architect
-* **Focus:** Algorithmic Efficiency (O(1)), Security & Integration Testing.
-* **Requirement:** Everything above + **Constant Time Stats & JWT**.
+* **Focus:** Containerization & Production Standards.
+* **Requirement:** Everything above + **Optimized Docker**.
 * **Extra Tasks:**
-    1.  **O(1) Complexity:** The `/stats` endpoint must return results in **Constant Time** (O(1)), regardless of whether there are 10 or 10 million transactions. *Hint: Update stats on write, don't iterate on read.*
-    2.  **Security:** Implement a mechanism for **JWT Authentication** (Middleware). The `/transactions` endpoint should be protected.
-    3.  **Integration Tests:** Add a separate test suite (`tests/integration`) that spins up a real database (or TestContainer) to verify the full flow.
-* **Deliverable:** A high-performance system capable of handling high load with low latency.
+    1.  **Dockerization:** Complete the `Dockerfile`. The image must build successfully and start the app.
+    2.  **Optimization:** Ensure the Docker image is lightweight (use `slim` or `alpine` variants) and does not run as root user if possible.
+    3.  **Logging:** Implement structured logging (JSON format) instead of simple `print()` statements for better observability in containers.
+* **Deliverable:** A container-ready microservice suitable for Kubernetes deployment.
 
 ---
 
 ### 🛠️ Tech Stack Requirements
-* **Language:** Python 3.10+ (Strict Type Hinting is mandatory).
-* **Framework:** FastAPI (Highly Recommended) or Django Ninja.
-* **Containerization:** **Docker is mandatory.** A `Dockerfile` must be included.
-* **Testing:** Pytest.
+* **Language:** Python 3.10+.
+* **Framework:** FastAPI.
+* **Validation:** Pydantic V2.
+* **Testing:** Pytest / TestClient.
+* **Container:** Docker.
 
 ---
 
 ### 🚀 Execution Instructions
 
 1.  **Fork** this repository.
-2.  Install dependencies: `pip install -r requirements.txt`.
-3.  Implement your solution inside the `src/` folder.
-4.  Run local tests: `pytest`.
-5.  **Dockerize** your solution and verify it runs.
-6.  Submit via **Pull Request** stating your target Level.
+2.  Install dependencies:
+    ```bash
+    pip install -r requirements.txt
+    ```
+3.  **Architect your solution:**
+    * `src/models/`: Place your Pydantic schemas here.
+    * `src/services/`: Place your calculation logic here.
+    * `src/main.py`: Wire everything together.
+4.  Run validation tests:
+    ```bash
+    pytest tests/
+    ```
+5.  **Level 1 Only:** Build and run via Docker:
+    ```bash
+    docker build -t purestack-backend .
+    docker run -p 8000:8000 purestack-backend
+    ```
+6.  Submit via **Pull Request**.
+
+> **Note:** You will see a ❌ (**Red Cross**) initially because the `/orders` endpoint returns 404. Your goal is to write the code that turns it ✅ (**Green**).
 
 ### 🧪 Evaluation Criteria (PureStack Audit)
 
 | Criteria | Weight | Audit Focus |
 | :--- | :--- | :--- |
-| **Architecture** | 30% | Separation of concerns (Routes vs Services). DI usage. |
-| **Concurrency** | 25% | Proper `async` usage. Handling of race conditions (Level 1). |
-| **Code Quality** | 25% | Type Hints (MyPy friendly), Pydantic usage, Clean Code. |
-| **Containerization** | 20% | Does `docker build` work? Is the image optimized? |
+| **Correctness** | 30% | Does `POST /orders` calculate the total correctly? (5 * 20.5 = 102.5) |
+| **Architecture** | 30% | Did you separate Models, Services, and Controllers? (Level 2) |
+| **Code Quality** | 20% | Type Hints usage and Pydantic validation. |
+| **DevOps** | 20% | Is the Dockerfile correct and efficient? (Level 1) |
 
 ---
 
-### 🚨 Project Structure (Standard)
+### 🚨 Project Structure (Strict)
 To ensure our **Automated Auditor** works, keep this structure:
 
 ```text
 /
-├── .github/
-│   └── workflows/
-│       └── audit.yml          # PureStack Audit System (CI Pipeline)
+├── .github/workflows/   # PureStack Audit System
 ├── src/
-│   ├── models/                # Data Transfer Objects (Place Pydantic Schemas here)
-│   ├── services/              # Business Logic Layer (Place Core Logic here)
+│   ├── models/          # <--- Pydantic Schemas
+│   ├── services/        # <--- Business Logic
 │   ├── __init__.py
-│   └── main.py                # Application Entry Point (FastAPI App)
+│   └── main.py          # <--- Entry Point
 ├── tests/
 │   ├── __init__.py
-│   └── test_api.py            # Validation Tests (Run 'pytest' to check your progress)
-├── Dockerfile                 # Container Configuration (Required for Level 3)
-├── requirements.txt           # Project Dependencies (FastAPI, Uvicorn, etc.)
-└── README.md                  # Challenge Instructions
+│   └── test_api.py      # Validation Logic
+├── Dockerfile           # <--- Complete this for Level 1
+├── requirements.txt     # Dependencies
+└── README.md
