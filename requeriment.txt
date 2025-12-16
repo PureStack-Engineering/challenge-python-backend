@@ -1,4 +1,5 @@
-fastapi
-uvicorn
-httpx
-# Añade aquí cualquier otra librería que uses (ej: pydantic, sqlalchemy...)
+fastapi==0.109.0
+uvicorn==0.27.0
+pydantic==2.5.3
+pytest==7.4.4
+httpx==0.26.0
