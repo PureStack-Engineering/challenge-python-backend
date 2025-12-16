@@ -78,13 +78,17 @@ To ensure our **Automated Auditor** works, keep this structure:
 
 ```text
 /
-├── .github/workflows/   # PureStack Audit System (DO NOT TOUCH)
+├── .github/
+│   └── workflows/
+│       └── audit.yml          # PureStack Audit System (CI Pipeline)
 ├── src/
+│   ├── models/                # Data Transfer Objects (Place Pydantic Schemas here)
+│   ├── services/              # Business Logic Layer (Place Core Logic here)
 │   ├── __init__.py
-│   ├── main.py          # <--- YOUR ENTRY POINT (must expose 'app')
-│   ├── services/        # <--- Recommended for Level 2
-│   └── models/          # <--- Pydantic Models
-├── tests/               # Validation Tests
-├── Dockerfile           # <--- REQUIRED
-├── requirements.txt
-└── README.md
+│   └── main.py                # Application Entry Point (FastAPI App)
+├── tests/
+│   ├── __init__.py
+│   └── test_api.py            # Validation Tests (Run 'pytest' to check your progress)
+├── Dockerfile                 # Container Configuration (Required for Level 3)
+├── requirements.txt           # Project Dependencies (FastAPI, Uvicorn, etc.)
+└── README.md                  # Challenge Instructions
