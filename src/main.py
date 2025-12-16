@@ -1,19 +1,12 @@
 from fastapi import FastAPI
 
-# Initialize the App
 app = FastAPI(title="PureStack Microservice")
 
 @app.get("/health")
 def health_check():
-    """
-    Level 1: Basic Health Check.
-    Expected: 200 OK, {"status": "ok"}
-    """
+    """Level 1: Basic Health Check."""
     return {"status": "ok"}
 
-# TODO: Implement POST /orders endpoint here
-# Requirements:
-# 1. Receive JSON payload (use Pydantic model)
-# 2. Validate data
-# 3. Process logic in services/
-# 4. Return 200 OK with order_id
+# TODO: Implement POST /orders logic here for Level 2
+# Use src/models for Pydantic schemas
+# Use src/services for business logic
