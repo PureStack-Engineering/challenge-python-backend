@@ -1,18 +1,19 @@
 from fastapi import FastAPI
 
-# Metadatos profesionales
-app = FastAPI(
-    title="PureStack Backend Challenge",
-    version="1.0.0"
-)
+# Initialize the App
+app = FastAPI(title="PureStack Microservice")
 
-# Endpoint Raíz (Este pasará el test de Health Check)
-@app.get("/")
+@app.get("/health")
 def health_check():
-    return {"status": "operational", "service": "purestack-backend"}
+    """
+    Level 1: Basic Health Check.
+    Expected: 200 OK, {"status": "ok"}
+    """
+    return {"status": "ok"}
 
-# NOTA PARA EL CANDIDATO:
-# Aquí debajo debes implementar tus endpoints.
-# - POST /transactions
-# - GET /stats
-# - DELETE /transactions
+# TODO: Implement POST /orders endpoint here
+# Requirements:
+# 1. Receive JSON payload (use Pydantic model)
+# 2. Validate data
+# 3. Process logic in services/
+# 4. Return 200 OK with order_id
