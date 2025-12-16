@@ -1,18 +1,15 @@
-# Use minimal Python image
-FROM python:3.9-slim
+# Usamos una imagen ligera de Python
+FROM python:3.10-slim
 
-# Set working directory
+# Directorio de trabajo dentro del contenedor
 WORKDIR /app
 
-# Install dependencies
+# Instalamos dependencias
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy source code
+# Copiamos el código fuente
 COPY src/ ./src/
 
-# Expose port
-EXPOSE 8000
-
-# Run the application
+# Comando para arrancar la app
 CMD ["uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "8000"]
