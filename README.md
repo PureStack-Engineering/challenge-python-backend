@@ -78,13 +78,28 @@ Your seniority is defined by your architectural choices and how you structure yo
 
 > **Note:** You will see a ❌ (**Red Cross**) initially because the `/orders` endpoint returns 404. Your goal is to write the code that turns it ✅ (**Green**).
 
+---
+
+### 📝 Audit & Validation Rules (Strict)
+
+> **⚠️ The "Async-First" Policy**
+>
+> Our automated auditor (`audit.yml`) enforces strict quality rules. Your PR will be automatically rejected if:
+>
+> 1.  **Blocking Code:** Usage of `time.sleep()` is strictly forbidden in our Async FastAPI environment. You must use `await asyncio.sleep()`.
+> 2.  **Dirty Logging:** `print()` statements are forbidden in production code. Use the standard `logging` module or `structlog`.
+> 3.  **Docker Failure:** Your `Dockerfile` must build without errors (Level 1 requirement).
+> 4.  **Structure Integrity:** Do not delete `src/services` or `src/models`. The auditor expects a Clean Architecture layout.
+
+---
+
 ### 🧪 Evaluation Criteria (PureStack Audit)
 
 | Criteria | Weight | Audit Focus |
 | :--- | :--- | :--- |
 | **Correctness** | 30% | Does `POST /orders` calculate the total correctly? (5 * 20.5 = 102.5) |
 | **Architecture** | 30% | Did you separate Models, Services, and Controllers? (Level 2) |
-| **Code Quality** | 20% | Type Hints usage and Pydantic validation. |
+| **Code Quality** | 20% | Type Hints usage, Async best practices, and Pydantic validation. |
 | **DevOps** | 20% | Is the Dockerfile correct and efficient? (Level 1) |
 
 ---
@@ -96,8 +111,8 @@ To ensure our **Automated Auditor** works, keep this structure:
 /
 ├── .github/workflows/   # PureStack Audit System
 ├── src/
-│   ├── models/          # <--- Pydantic Schemas
-│   ├── services/        # <--- Business Logic
+│   ├── models/          # <--- Pydantic Schemas (Required)
+│   ├── services/        # <--- Business Logic (Required)
 │   ├── __init__.py
 │   └── main.py          # <--- Entry Point
 ├── tests/
