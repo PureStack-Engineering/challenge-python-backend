@@ -1,20 +1,75 @@
 name: PureStack Backend Audit
 
-on: [push, pull_request]
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
 
 jobs:
-  test:
+  audit-backend:
     runs-on: ubuntu-latest
+    name: 🚀 Microservice Quality Gate
+
     steps:
-    - uses: actions/checkout@v4
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.10'
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
-    - name: Run Tests
-      # PYTHONPATH=. asegura que src/ sea visible para los tests
-      run: PYTHONPATH=. pytest tests/
+      - name: 📥 Checkout Code
+        uses: actions/checkout@v4
+
+      - name: 🔍 Phase 1: Structural Integrity
+        run: |
+          echo "::group::Architecture Validation"
+          # 1. Check Entry Point
+          if [ ! -f "src/main.py" ]; then echo "❌ Missing: src/main.py"; exit 1; fi
+          
+          # 2. Check Service Layer Pattern (Level 2 Requirement)
+          if [ ! -d "src/services" ]; then echo "❌ Missing Folder: src/services/ (Required for Layered Arch)"; exit 1; fi
+          if [ ! -d "src/models" ]; then echo "❌ Missing Folder: src/models/ (Required for Pydantic Schemas)"; exit 1; fi
+          
+          # 3. Check Dockerfile (Level 1 Requirement)
+          if [ ! -f "Dockerfile" ]; then echo "❌ Missing: Dockerfile"; exit 1; fi
+          
+          echo "✅ Project Structure follows PureStack Microservice Standards."
+          echo "::endgroup::"
+
+      - name: 🐍 Set up Python 3.10
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+          cache: 'pip'
+
+      - name: 📦 Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pytest httpx # Required for TestClient
+
+      - name: 🕵️ Phase 2: Anti-Pattern Detection
+        run: |
+          echo "::group::Static Code Analysis"
+          
+          # Ban 'print(' -> Enforce Logging
+          if grep -r "print(" src/; then 
+            echo "❌ CRITICAL: 'print()' detected. Use Python 'logging' module or 'structlog'."
+            exit 1
+          fi
+          
+          # Ban blocking sleep -> Enforce asyncio.sleep
+          if grep -r "time.sleep" src/; then 
+            echo "❌ CRITICAL: Blocking 'time.sleep' detected in Async framework. Use 'await asyncio.sleep()'."
+            exit 1
+          fi
+          
+          echo "✅ Code is clean of blocking calls and dirty logs."
+          echo "::endgroup::"
+
+      - name: 🧪 Phase 3: Functional Validation
+        run: |
+          # PYTHONPATH=. makes 'src' importable
+          PYTHONPATH=. pytest tests/ -v
+
+      - name: 🐳 Phase 4: Container Build (Level 1 Check)
+        run: |
+          echo "::group::Docker Build Test"
+          docker build . -t purestack-validator:latest
+          echo "✅ Dockerfile is valid and builds successfully."
+          echo "::endgroup::"
