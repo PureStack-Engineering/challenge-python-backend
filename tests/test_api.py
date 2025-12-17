@@ -4,19 +4,41 @@ from src.main import app
 client = TestClient(app)
 
 def test_health_check():
-    """Level 1: Validate environment is running."""
+    """Sanity check to ensure app can start"""
     response = client.get("/health")
     assert response.status_code == 200
     assert response.json() == {"status": "ok"}
 
-def test_create_order_flow():
-    """Level 2: Validate business logic."""
-    payload = {"item_id": "PS-101", "quantity": 2, "price": 50.0}
-    
-    # 🚨 ESTO FALLARÁ (404) hasta que el candidato lo programe
+def test_create_order_success():
+    """
+    Test valid order creation.
+    Expected: 200 OK and correct total calculation.
+    """
+    payload = {
+        "item_name": "Laptop",
+        "quantity": 2,
+        "price": 1000.50
+    }
     response = client.post("/orders", json=payload)
     
-    assert response.status_code == 200, "❌ El endpoint POST /orders no existe aún."
+    # ❌ This will fail initially (404 Not Found)
+    assert response.status_code == 200, f"Expected 200, got {response.status_code}"
     data = response.json()
+    
     assert "order_id" in data
-    assert data["total_price"] == 100.0
+    assert data["total_price"] == 2001.0  # 2 * 1000.50
+
+def test_create_order_invalid_data():
+    """
+    Test validation logic (Level 3).
+    Expected: 422 Unprocessable Entity for negative quantity.
+    """
+    payload = {
+        "item_name": "Bad Item",
+        "quantity": -5, 
+        "price": 100
+    }
+    response = client.post("/orders", json=payload)
+    
+    # Pydantic should catch this automatically
+    assert response.status_code == 422
