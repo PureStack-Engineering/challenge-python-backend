@@ -3,6 +3,15 @@
 **PureStack.es - Engineering Validation Protocol.**
 > *"We don't audit algorithms. We audit Architecture, Clean Code, and Containerization."*
 
+> [!TIP]
+> **HOW TO START THIS CHALLENGE**
+> 1. Click the green **"Use this template"** button (top right) -> **"Create a new repository"**.
+> 2. Select **"Private"** visibility (Crucial to prevent spoilers).
+> 3. Clone your new private repository to your machine.
+> 4. Once finished, invite user **[JLMoraCastilla](https://github.com/JLMoraCastilla)** as a collaborator to review.
+>
+> ⚠️ **DO NOT FORK** this repository directly, as it will force your solution to be public.
+
 ---
 
 ### 📋 Context & Mission
@@ -13,7 +22,7 @@ This assessment audits your ability to build **production-ready systems** using 
 The system must receive incoming orders, validate the data structure, calculate totals based on business rules, and return a confirmed response.
 
 ### 🚦 Certification Levels (Choose your Difficulty)
-Your seniority is defined by your architectural choices and how you structure your code. State your target level in your Pull Request.
+Your seniority is defined by your architectural choices and how you structure your code. State your target level in your Pull Request (or commit message).
 
 #### 🥉 Level 3: Essential / Mid-Level
 * **Focus:** Functionality & Validation.
@@ -56,7 +65,7 @@ Your seniority is defined by your architectural choices and how you structure yo
 
 ### 🚀 Execution Instructions
 
-1.  **Fork** this repository.
+1.  **Use the Template:** Create your **Private Repository** using the instructions at the top of this file.
 2.  Install dependencies:
     ```bash
     pip install -r requirements.txt
@@ -74,7 +83,7 @@ Your seniority is defined by your architectural choices and how you structure yo
     docker build -t purestack-backend .
     docker run -p 8000:8000 purestack-backend
     ```
-6.  Submit via **Pull Request**.
+6.  **Submit:** Push your changes to your private repo and invite the reviewer.
 
 > **Note:** You will see a ❌ (**Red Cross**) initially because the `/orders` endpoint returns 404. Your goal is to write the code that turns it ✅ (**Green**).
 
@@ -121,3 +130,18 @@ To ensure our **Automated Auditor** works, keep this structure:
 ├── Dockerfile           # <--- Complete this for Level 1
 ├── requirements.txt     # Dependencies
 └── README.md
+```
+---
+## ⚖️ License & Legal Notice
+
+**© 2025 PureStack.es. All Rights Reserved.**
+
+This repository is "Source Available" for **evaluation purposes only**.
+
+* **Public viewing:** Allowed.
+* **Commercial use:** ❌ Strictly Prohibited.
+* **Redistribution:** ❌ Strictly Prohibited.
+
+By accessing this material, you agree to the terms in `LICENSE.md`.
+
+> **🚫 Publishing solutions to public repositories is a violation of these terms.**
