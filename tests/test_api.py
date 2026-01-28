@@ -21,12 +21,12 @@ def test_create_order_success():
     }
     response = client.post("/orders", json=payload)
     
-    # ❌ This will fail initially (404 Not Found)
+   
     assert response.status_code == 200, f"Expected 200, got {response.status_code}"
     data = response.json()
     
     assert "order_id" in data
-    assert data["total_price"] == 2001.0  # 2 * 1000.50
+    assert data["total_price"] == 2001.0 
 
 def test_create_order_invalid_data():
     """
